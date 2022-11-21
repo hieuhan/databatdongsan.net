@@ -1,0 +1,220 @@
+﻿@using WebApplication.Models
+@using databatdongsan.helper
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model CustomerVM
+<div class="page-body">
+    <div class="container-xl">
+        <div class="row row-deck row-cards mb-3">
+            <div class="col-md-8">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="subheader">Thêm khách hàng</div>
+                            @Html.Partial("_PartialAddNewCustomer", new CustomerInsertOrUpdateVM())
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="subheader">Nhập dữ liệu từ file Excel</div>
+                        @Html.Partial("_PartialImportFromExcel", new UserImportExcelVM())
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row g-2 align-items-center">
+            <div class="col-md-2">
+                <h3 class="card-title">Danh sách</h3>
+                @if (Model.Pagination.RowCount > 0)
+                {
+                    if (Model.Users != null && Model.Users.UserId > 0 && Model.UserId > 0)
+                    {
+                        <div class="text-muted mt-1">Tài khoản <b>@Model.Users.UserName</b> : có <b>@Model.Pagination.RowCount.ToString("#,###")</b> khách hàng.</div>
+                    }
+                    else
+                    {
+                        <div class="text-muted mt-1">Tổng: <b>@Model.Pagination.RowCount.ToString("#,###")</b> khách hàng.</div>
+                    }
+                }
+            </div>
+            <!-- Page title actions -->
+            <div class="col-md-10 ms-auto">
+                @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { @class = "form-group row" }))
+                {
+                    <div class="col-md-3 mb-3">
+                        @Html.TextBoxFor(x => x.Keyword, new { @class = "form-control", placeholder = "Số điện thoại hoặc email" })
+                    </div>
+                    if (Model.Users != null && Model.Users.UserId > 0)
+                    {
+                        <div class="col-md-2 mb-3">
+                            <select name="UserId" class="form-select select2">
+                                <option value="0">Chọn tài khoản</option>
+                                @if (Model.UserId > 0)
+                                {
+                                    <option value="@Model.Users.UserId" selected>@Model.Users.UserName</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                    <div class="col-md-2 mb-3">
+                        <select name="SortedBy" class="form-select select2">
+                            <option value="0" @((Model.SortedBy <= 0 || Model.SortedBy > 7) ? "selected" : "")>Chọn khoảng thời gian</option>
+                            <option value="1" @(Model.SortedBy == 1 ? "selected" : "")>Ngày hôm nay</option>
+                            <option value="2" @(Model.SortedBy == 2 ? "selected" : "")>Ngày hôm qua</option>
+                            <option value="3" @(Model.SortedBy == 3 ? "selected" : "")>Tuần này</option>
+                            <option value="4" @(Model.SortedBy == 4 ? "selected" : "")>Tuần trước</option>
+                            <option value="5" @(Model.SortedBy == 5 ? "selected" : "")>Tháng này</option>
+                            <option value="6" @(Model.SortedBy == 6 ? "selected" : "")>Tháng trước</option>
+                            <option value="7" @(Model.SortedBy == 7 ? "selected" : "")>Năm nay</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <select name="PageSize" class="form-select select2">
+                            <option value="0">Hiển thị</option>
+                            <option value="50" @(Model.Pagination.PageSize == 50 ? "selected" : "")>50 dòng/trang</option>
+                            <option value="100" @(Model.Pagination.PageSize == 100 ? "selected" : "")>100 dòng/trang</option>
+                            <option value="150" @(Model.Pagination.PageSize == 150 ? "selected" : "")>150 dòng/trang</option>
+                            <option value="200" @(Model.Pagination.PageSize == 200 ? "selected" : "")>200 dòng/trang</option>
+                            <option value="250" @(Model.Pagination.PageSize == 250 ? "selected" : "")>250 dòng/trang</option>
+                            <option value="300" @(Model.Pagination.PageSize == 300 ? "selected" : "")>300 dòng/trang</option>
+                            <option value="350" @(Model.Pagination.PageSize == 350 ? "selected" : "")>350 dòng/trang</option>
+                            <option value="400" @(Model.Pagination.PageSize == 400 ? "selected" : "")>400 dòng/trang</option>
+                        </select>
+                        <input type="hidden" name="Page" value="@Model.Pagination.PageIndex" />
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <div class="btn-list flex-nowrap">
+                            <button type="submit" class="btn btn-primary btn-search">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <circle cx="10" cy="10" r="7"></circle>
+                                    <line x1="21" y1="21" x2="15" y2="15"></line>
+                                </svg>
+                                Tìm kiếm
+                            </button>
+                            <button type="submit" class="btn btn-teal btn-export-excel">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-arrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+                                    <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z"></path>
+                                    <path d="M9 15h6"></path>
+                                    <path d="M12.5 17.5l2.5 -2.5l-2.5 -2.5"></path>
+                                </svg>
+                                Xuất file Excel
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="row row-cards">
+            <div class="col-12">
+                <div class="card">
+                    @if (Model.CustomersList.IsAny())
+                    {
+                        int number = 0;
+                        <div class="table-responsive">
+                            <table class="table table-vcenter card-table">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Điện thoại</th>
+                                        <th>Email</th>
+                                        <th>Ghi chú</th>
+                                        <th>Tạo bởi</th>
+                                        <th>Ngày tạo</th>
+                                        <th class="w-1"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int index = 0; index < Model.CustomersList.Count; index++)
+                                    {
+                                        number = index + (Model.Pagination.PageIndex > 0 ? Model.Pagination.PageIndex - 1 : Model.Pagination.PageIndex) * Model.Pagination.PageSize + 1;
+                                        <tr data-id="@Model.CustomersList[index].CustomerId" data-o="@number">
+                                            <td class="text-muted">@number.ToString("#,###")</td>
+                                            <td colspan="3">
+                                                <div class="row">
+                                                    <div class="col-xl-4 col-md-12">@Model.CustomersList[index].Mobile</div>
+                                                    <div class="col-xl-4 col-md-12">
+                                                        @if (!string.IsNullOrWhiteSpace(Model.CustomersList[index].Email))
+                                                        {
+                                                            <a href="mailto:@Model.CustomersList[index].Email">@Model.CustomersList[index].Email</a>
+                                                        }
+                                                    </div>
+                                                    <div class="col-xl-4 col-md-12">@Model.CustomersList[index].Note</div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">
+                                                <div class="row">
+                                                    <div class="col-auto">
+                                                        <span class="avatar" style="background-image: url(@Model.CustomersList[index].Avatar.GetImageUrl_Icon())"></span>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="text-truncate">
+                                                            <strong>@Model.CustomersList[index].CreatedBy</strong>
+                                                        </div>
+                                                        <div class="text-muted">@Model.CustomersList[index].Counter.ToString("#,###") khách hàng</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-muted">
+                                                @Model.CustomersList[index].CrDateTime.TimeAgo()
+                                            </td>
+                                            <td>
+                                                <div class="btn-list flex-nowrap">
+                                                    <a href="javascript:void(0)" title="Cập nhật thông tin khách hàng" class="edit-customer">
+                                                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"></path>
+                                                                <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"></path>
+                                                                <path d="M16 5l3 3"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </a>
+                                                    <a href="javascript:void(0)" title="Xóa khách hàng" class="remove-customer">
+                                                        <span class="nav-link-icon d-md-none d-lg-inline-block text-danger">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                <line x1="4" y1="7" x2="20" y2="7"></line>
+                                                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                                                            </svg>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        @Html.Partial("_PartialPagination", Model.Pagination)
+                    }
+                    else
+                    {
+                        <div class="col-12">
+                            <div class="card card-md">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-10">
+                                            <div class="text-muted">
+                                                Không tìm thấy khách hàng phù hợp.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

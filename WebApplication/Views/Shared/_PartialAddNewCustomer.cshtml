@@ -1,0 +1,38 @@
+﻿@using WebApplication.Models
+@model CustomerInsertOrUpdateVM
+@using (Ajax.BeginForm("AddNewCustomer", "Ajax", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnBegin = "appModule.ajaxEvents.OnBegin",
+    OnComplete = "appModule.ajaxEvents.OnComplete",
+    OnSuccess = "appModule.ajaxEvents.OnSuccess",
+    OnFailure = "appModule.ajaxEvents.OnFailure"
+}))
+{
+    @Html.AntiForgeryToken()
+<div class="form-group row">
+    <div class="col-md-3 mb-3">
+        @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control", placeholder = "Số điện thoại (bắt buộc nhập)", autofocus = "true" })
+        @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+    </div>
+    <div class="col-md-3 mb-3">
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+    </div>
+    <div class="col-md-4 mb-3">
+        @Html.TextBoxFor(m => m.Note, new { @class = "form-control", placeholder = "Ghi chú" })
+        @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+    </div>
+    <div class="col-md-2 mb-3">
+        <button type="submit" class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                <path d="M16 11h6m-3 -3v6"></path>
+            </svg>
+            Thêm
+        </button>
+    </div>
+</div>
+}

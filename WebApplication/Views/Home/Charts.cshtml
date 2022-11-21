@@ -1,0 +1,220 @@
+﻿@using databatdongsan.library
+@using databatdongsan.helper
+@using WebApplication.Models
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model ChartsViewModel
+@if (Model.CustomersList.IsAny())
+{
+    <div class="container-xl">
+        <!-- Page title -->
+        <div class="page-header d-print-none">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <h2 class="page-title">
+                        Biểu đồ
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-cards">
+                    <div class="col-3">
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title">Thống kê khách hàng theo tài khoản</h3>
+                                <div id="chart-customers-by-user-pie"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                    </div>
+   
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <h3 class="card-title">Biểu đồ khách hàng theo ngày</h3>
+                                <div class="ms-auto">
+                                    <div class="dropdown">
+                                        <select name="ChartsType" class="form-select">
+                                            <option value="0">7 ngày qua</option>
+                                            <option value="1">30 ngày qua</option>
+                                            <option value="2">3 tháng qua</option>
+                                            <option value="3">6 tháng qua</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div id="chart-active-users-2"></div>
+                                </div>
+                                <div class="col-md-auto">
+                                    <div class="divide-y divide-y-fill">
+                                        <div class="px-3">
+                                            <div class="text-muted">
+                                                <span class="status-dot bg-primary"></span> Tổng số khách hàng
+                                            </div>
+                                            <div class="h2 total-customers">@Model.CustomersList.Sum(x => x.Total).ToString("#,###")</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+
+}
+@section FooterSection{
+    <script src="/dist/libs/apexcharts/dist/apexcharts.min.js" defer></script>
+    <script>
+        var rgb = [], length = @Model.UsersList.Count;
+        for (var i = 0; i < length; i++)
+            rgb.push(`#${Math.floor(Math.random() * 16777215).toString(16) }`);
+        console.log(rgb)
+        document.addEventListener("DOMContentLoaded", function () {
+            window.ApexCharts && (new ApexCharts(document.getElementById('chart-customers-by-user-pie'), {
+                chart: {
+                    type: "pie",
+                    fontFamily: 'inherit',
+                    height: 380,
+                    sparkline: {
+                        enabled: false
+                    },
+                    animations: {
+                        enabled: true
+                    },
+                },
+                series: [@(string.Join(",", Model.UsersList.Select(x => x.Counter)))],
+                labels: ['@Html.Raw(string.Join("', '", Model.UsersList.Select(x=> x.UserName)))'],
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+                //theme: {
+                //    monochrome: {
+                //        enabled: true
+                //    }
+                //},
+                //grid: {
+                //    strokeDashArray: 4,
+                //},
+                //colors: rgb,
+                //legend: {
+                //    show: true,
+                //    position: 'bottom',
+                //    offsetY: 12,
+                //    markers: {
+                //        width: 10,
+                //        height: 10,
+                //        radius: 100,
+                //    },
+                //    itemMargin: {
+                //        horizontal: 8,
+                //        vertical: 8
+                //    },
+                //},
+                //tooltip: {
+                //    fillSeriesColor: false
+                //}
+            })).render();
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            window.ApexCharts && (new ApexCharts(document.getElementById('chart-active-users-2'), {
+                chart: {
+                    defaultLocale: 'vi',
+                    locales: [{
+                        name: 'vi',
+                        options: {
+                            months: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                            shortMonths: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                            days: ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'],
+                            shortDays: ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'],
+                            toolbar: {
+                                download: 'Download SVG',
+                                selection: 'Selection',
+                                selectionZoom: 'Selection Zoom',
+                                zoomIn: 'Zoom In',
+                                zoomOut: 'Zoom Out',
+                                pan: 'Panning',
+                                reset: 'Reset Zoom',
+                            }
+                        }
+                    }],
+                    type: "line",
+                    fontFamily: 'inherit',
+                    height: 288,
+                    parentHeightOffset: 0,
+                    toolbar: {
+                        show: false,
+                    },
+                    animations: {
+                        enabled: false
+                    },
+                },
+                fill: {
+                    opacity: 1,
+                },
+                stroke: {
+                    width: 2,
+                    lineCap: "round",
+                    curve: "smooth",
+                },
+                series: [{
+                    name: "Khách hàng",
+                    data: [@(string.Join(",", Model.CustomersList.Select(x => x.Total)))]
+                }],
+                grid: {
+                    padding: {
+                        top: -20,
+                        right: 0,
+                        left: -4,
+                        bottom: -4
+                    },
+                    strokeDashArray: 4,
+                },
+                xaxis: {
+                    labels: {
+                        padding: 0,
+                        format: 'dd/MM/yyyy',
+                    },
+                    tooltip: {
+                        enabled: true
+                    },
+                    type: 'datetime',
+                },
+                yaxis: {
+                    labels: {
+                        padding: 4
+                    },
+                },
+                labels: [
+                    '@Html.Raw(string.Join("', '", Model.CustomersList.Select(x=> x.CrDateTime.ToString("yyyy-MM-dd"))))'
+                ],
+                colors: ["#206bc4", "#45aaf2", "#5eba00"],
+                legend: {
+                    show: false,
+                },
+            })).render();
+        });
+    </script>
+}

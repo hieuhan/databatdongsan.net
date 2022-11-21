@@ -1,0 +1,69 @@
+﻿@using WebApplication.Models
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model BaseViewModel
+<div class="container-xl">
+    <!-- Page title -->
+    <div class="page-header d-print-none">
+        <div class="row g-2 align-items-center">
+            <div class="col">
+                <h2 class="page-title">
+                    Câu hỏi thường gặp
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-body">
+    <div class="container-xl">
+        <div class="card card-lg">
+            <div class="card-body">
+                <div class="space-y-4">
+                    <div>
+                        <h2 class="mb-3">1. Thêm khách hàng mới</h2>
+                        <div id="faq-1" class="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="accordion-item">
+                                <div class="accordion-header" role="tab">
+                                    <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#faq-1-1">Biên tập viên chủ động nhập</button>
+                                </div>
+                                <div id="faq-1-1" class="accordion-collapse collapse show" role="tabpanel" data-bs-parent="#faq-1">
+                                    <div class="accordion-body pt-0">
+                                        <div>
+                                            <p><img src="/src/static/faq/them-khach-hang.png" alt="Image Alt"></p>
+                                            <p><b>Số điện thoại</b> (bắt buộc nhập), nếu số điện thoại đã có trong hệ thống sẽ hiển thị thông báo.</p>
+                                            <p><b>Email</b> (không bắt buộc nhập), nếu email đã có trong hệ thống sẽ hiển thị thông báo.</p>
+                                            <p><b>Ghi chú</b> (không bắt buộc nhập).</p>
+                                            <p><img src="/src/static/faq/thong-bao-so-dt.png" alt="Image Alt"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <div class="accordion-header" role="tab">
+                                    <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq-1-2">Nhập dữ liệu từ file Excel</button>
+                                </div>
+                                <div id="faq-1-2" class="accordion-collapse collapse" role="tabpanel" data-bs-parent="#faq-1">
+                                    <div class="accordion-body pt-0">
+                                        <div>
+                                            <p><img src="/src/static/faq/import-from-excel.png" alt="Image Alt"></p>
+                                            <p>Để có thể nhập hàng loạt khách hàng, bạn có thể sử dụng chức năng <b>Nhập dữ liệu từ file Excel</b>.</p>
+                                            <p>Tải file excel mẫu <a href="/src/static/files/sample.xlsx" target="_blank" title="Tải file Excel mẫu">tại đây</a>, hoặc sử dụng chính file Excel từ tính năng <b>Xuất file Excel</b>. Đảm bảo rằng file Excel có các cột <b>SoDienThoai</b>, <b>Email</b> và <b>GhiChu</b>.</p>
+                                            <p><img src="/src/static/faq/file-excel.png" alt="Image Alt"></p>
+                                            <p><img src="/src/static/faq/excel-sample.png" alt="Image Alt"></p>
+                                            <p>Biên tập nhập dữ liệu <b>số điện thoại</b> và <b>Email</b> (không bắt buộc), <b>Ghi chú</b> (không bắt buộc) của khách hàng vào cột tương ứng là <b>SoDienThoai</b> và <b>Email</b>, <b>Note</b></p>
+                                            <p>Chọn file Excel ở bên trên và chọn nút <b>Nhập</b></p>
+                                            <p><img src="/src/static/faq/button-import-excel.png" alt="Image Alt"></p>
+                                            <p><b>Số điện thoại</b> đã có trên hệ thống sẽ tự động bỏ qua.</p>
+                                            <p><b>Email</b> đã có trên hệ thống sẽ tự động bỏ qua.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

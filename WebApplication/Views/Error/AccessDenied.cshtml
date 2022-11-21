@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null;
+    Response.StatusCode = (int) HttpStatusCode.Forbidden;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Hệ thống quản trị databatdongsan.net</title>
+    <meta name="description" content="Tính Phí Công Chứng - Kiểm Tra Giá Nhà Đất - Tự Động bằng Phần Mềm - Nhanh Chóng - Chính Xác - Tiện Ích Cho Người Sử Dụng." />
+    <meta name="keywords" content="tính phí công chứng, Phí Công Chứng, tính phí công chứng online, Phần Mềm Tính Phí Công Chứng" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="nofollow,noindex" />
+    <link rel="shortcut icon" href="/src/static/favicon.ico" />
+    @Styles.Render("~/app/css")
+</head>
+
+<body class="bg-white">
+    <!-- Error page -->
+    <div class="container min-vh-100 d-flex justify-content-center
+      align-items-center">
+        <!-- row -->
+        <div class="row">
+            <!-- col -->
+            <div class="col-12">
+                <!-- content -->
+                <div class="text-center">
+                    <div class="mb-3">
+                        <!-- img -->
+                        <img src="~/assets/images/error/access-denied.jpg" alt="access denied" class="img-fluid">
+                    </div>
+                    <!-- text -->
+                    <h4 class="fw-bold">Bạn không có quyền truy cập chức năng này.</h4>
+                    <p class="mb-4">
+                       Vui lòng liên hệ với Quản trị viên để biết thêm chi tiết.
+                    </p>
+                    <!-- button -->
+                    <a href="/" class="btn btn-primary">Go Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

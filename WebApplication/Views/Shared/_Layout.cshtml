@@ -1,0 +1,55 @@
+﻿@using WebApplication.Models
+@using WebApplication.Helpers.Extensions 
+@model BaseViewModel
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Hệ thống quản trị databatdongsan.net</title>
+    <link rel="shortcut icon" href="/src/static/favicon.ico" />
+    <link href="/dist/css/tabler.min.css" rel="stylesheet" />
+    <link href="/dist/css/tabler-flags.min.css" rel="stylesheet" />
+    <link href="/dist/css/tabler-payments.min.css" rel="stylesheet" />
+    <link href="/dist/css/tabler-vendors.min.css" rel="stylesheet" />
+    <link href="/dist/css/demo.min.css" rel="stylesheet" />
+    <link href="/assets/libs/toastr/toastr.css" rel="stylesheet" />
+    <link href="/assets/libs/select2/select2.min.css" rel="stylesheet" />
+</head>
+<body class="layout-fluid">
+    <div class="page">
+        @Html.Action("_PartialHeader", "Shared")
+        <div class="page-wrapper">
+            @RenderBody()
+            <footer class="footer footer-transparent d-print-none">
+                <div class="container-xl">
+                    <div class="row text-center align-items-center flex-row-reverse">
+                        <div class="col-12 col-lg-auto mt-3 mt-lg-0">
+                            <ul class="list-inline list-inline-dots mb-0">
+                                <li class="list-inline-item">
+                                    Copyright &copy; 2022 databatdongsan.net.
+                                    All rights reserved.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!-- Libs JS -->
+    <!-- Tabler Core -->
+    <script src="/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="/dist/js/tabler.min.js" defer></script>
+    <script src="/dist/js/demo.min.js" defer></script>
+    <script src="/assets/libs/toastr/toastr.js"></script>
+    <script src="/assets/libs/select2/select2.min.js"></script>
+    <script src="/assets/libs/jquery-validate/jquery.validate.min.js"></script>
+    <script src="/assets/libs/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="/assets/libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="/assets/js/app.js"></script>
+    @Html.ToastrNotifications()
+    @RenderSection("FooterSection" ,required: false)
+</body>
+</html>
